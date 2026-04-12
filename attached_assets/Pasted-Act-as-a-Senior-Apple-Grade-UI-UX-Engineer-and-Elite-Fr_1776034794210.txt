@@ -1,0 +1,42 @@
+Act as a Senior Apple-Grade UI/UX Engineer and Elite Frontend Developer. Your task is to write the complete, production-ready frontend for a trillion-dollar vibe Web3 B2B Invoicing Dashboard called "LuminaPay". 
+
+CRITICAL RULES:
+1. Generate the ENTIRE code in a single file from `<!DOCTYPE html>` to `</html>`.
+2. ABSOLUTELY NO PLACEHOLDERS. Do not use phrases like "", "/* CSS goes here */", or "...rest of the code". Write every single line of HTML and Tailwind classes needed for a fully finished page.
+3. Tech Stack: Pure HTML5, Tailwind CSS (via CDN scripts), and Vanilla JavaScript for basic UI interactivity (sidebar toggles, hover effects). No React, No Next.js.
+4. Icons: Integrate Lucide Icons via CDN and initialize them in the script tag.
+5. Fonts: Import 'Inter' from Google Fonts and apply it globally.
+
+DESIGN SYSTEM ("Midnight Dark & Frosted Glass"):
+- Background: Pure black to very dark charcoal gradient (e.g., bg-black to bg-zinc-950).
+- Cards & Containers: Apple Vision Pro-style glassmorphism. Use `bg-white/5`, `backdrop-blur-xl`, `border border-white/10`, and subtle drop shadows.
+- Typography: Crisp white for primary text, slate-400 for secondary text.
+- Accents: Electric neon-blue (`text-blue-400`, `border-blue-500/50`) and subtle silver glowing effects on hover.
+- Animations: Smooth transitions on all interactive elements (`transition-all duration-300 ease-in-out`). Buttons should scale up slightly on hover (`hover:scale-105`) with a soft glow.
+
+PAGE LAYOUT & CORE FEATURES:
+
+1. Sidebar Navigation (Left side, fixed, glassmorphism panel):
+- Brand Logo: "LuminaPay" in a sleek, bold font with a subtle blue gradient text effect.
+- Navigation Links (with Lucide icons): Dashboard, Invoices, Clients, Settings. Make the "Invoices" link look active (slightly brighter background, blue accent bar).
+- Bottom: A user profile snippet (Name, "Admin") with a placeholder avatar.
+
+2. Main Content Area (Right side, scrollable):
+- Top Metrics Section: Two stunning glass cards side-by-side. 
+  - Card 1: "Total Revenue" displaying "$124,500.00 USDC". Include a small green "+14%" badge.
+  - Card 2: "Outstanding Invoices" displaying "$12,350.00 USDC". Include a small yellow icon.
+
+- The "Create Invoice" Section (Center stage):
+  - A premium glass-styled form.
+  - Fields: "Client Email" (Input), "Amount in USD" (Input), "Description" (Textarea).
+  - Inputs should have dark backgrounds (`bg-black/50`), white text, and light up with a blue border on focus (`focus:ring-2 focus:ring-blue-500/50`).
+  - Button: "Generate Payment Link". Make this button pop—solid deep blue background with a bright blue glow on hover.
+
+- Invoice History Table (Bottom section):
+  - A sleek data table wrapped in a glass container.
+  - Headers: Invoice ID, Client, Date, Amount, Status, Action.
+  - Rows: Create 3 fully populated dummy rows.
+  - Status Badges: Use pills. "Paid" = soft green background with bright green text. "Pending" = soft yellow/orange background with bright yellow text.
+  - Action: A small "Copy Link" button for pending invoices.
+
+Remember: Write the FULL, beautiful, working HTML file. Make it fully responsive (stack the sidebar on mobile). Deliver the complete code block now.
