@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>LuminaPay — Web3 B2B Invoicing</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,27 +10,34 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
-    * { font-family: 'Inter', sans-serif; }
+    *, *::before, *::after { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
 
     body {
-      background: radial-gradient(ellipse at top left, #0d1117 0%, #000000 50%, #09090b 100%);
+      background: radial-gradient(ellipse at top left, #0d1117 0%, #0a0a0a 50%, #09090b 100%);
       min-height: 100vh;
+      color: #fff;
     }
 
     .glass {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255,255,255,0.04);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .glass-strong {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(40px);
       -webkit-backdrop-filter: blur(40px);
-      border: 1px solid rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
+    /* ---- Sidebar links ---- */
     .sidebar-link {
       display: flex;
       align-items: center;
@@ -43,70 +50,54 @@
       transition: all 0.25s ease;
       cursor: pointer;
       text-decoration: none;
+      border-left: 2px solid transparent;
     }
-
     .sidebar-link:hover {
       background: rgba(255,255,255,0.07);
       color: #f1f5f9;
     }
-
     .sidebar-link.active {
-      background: rgba(59, 130, 246, 0.12);
+      background: rgba(59,130,246,0.12);
       color: #93c5fd;
       border-left: 2px solid #3b82f6;
       padding-left: 12px;
     }
 
-    .sidebar-link.active i, .sidebar-link.active svg {
-      color: #3b82f6;
-    }
-
+    /* ---- Glow effects ---- */
     .glow-blue {
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.25), 0 0 40px rgba(59, 130, 246, 0.10);
+      box-shadow: 0 0 20px rgba(59,130,246,0.25), 0 0 40px rgba(59,130,246,0.10);
     }
-
     .glow-blue:hover {
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.45), 0 0 60px rgba(59, 130, 246, 0.20);
+      box-shadow: 0 0 30px rgba(59,130,246,0.50), 0 0 60px rgba(59,130,246,0.20);
+    }
+    .glow-green {
+      box-shadow: 0 0 16px rgba(34,197,94,0.25), 0 0 32px rgba(34,197,94,0.10);
     }
 
-    .metric-card {
-      position: relative;
-      overflow: hidden;
-    }
-
+    /* ---- Metric card orb ---- */
+    .metric-card { position: relative; overflow: hidden; }
     .metric-card::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 200px;
-      height: 200px;
+      top: -50%; right: -20%;
+      width: 200px; height: 200px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    input:focus, textarea:focus {
-      outline: none;
-    }
+    /* ---- Form inputs ---- */
+    input:focus, textarea:focus, select:focus { outline: none; }
 
-    .table-row:hover {
-      background: rgba(255,255,255,0.03);
-    }
+    /* ---- Table row hover ---- */
+    .table-row:hover { background: rgba(255,255,255,0.03); }
 
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
+    /* ---- Scrollbar ---- */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 4px; }
 
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.1);
-      border-radius: 4px;
-    }
-
+    /* ---- Logo gradient ---- */
     .logo-gradient {
       background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #38bdf8 100%);
       -webkit-background-clip: text;
@@ -114,104 +105,122 @@
       background-clip: text;
     }
 
+    /* ---- Shimmer card border ---- */
     .shimmer-border {
-      background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(167,139,250,0.2), rgba(56,189,248,0.3));
+      background: linear-gradient(135deg, rgba(59,130,246,0.30), rgba(167,139,250,0.20), rgba(56,189,248,0.30));
       padding: 1px;
       border-radius: 16px;
     }
-
     .shimmer-border-inner {
       border-radius: 15px;
-      background: #050507;
+      background: #080809;
     }
 
-    @keyframes pulse-glow {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
+    /* ---- Pulse dot ---- */
+    @keyframes pulse-glow { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .pulse-dot { animation: pulse-glow 2s ease-in-out infinite; }
 
-    .pulse-dot {
-      animation: pulse-glow 2s ease-in-out infinite;
-    }
+    /* ---- Spin ---- */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 0.8s linear infinite; }
 
-    #sidebar-overlay {
-      display: none;
-    }
+    /* ---- Mobile sidebar ---- */
+    #sidebar-overlay { display: none; }
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
       #sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
         position: fixed;
-        top: 0;
-        left: 0;
+        top: 0; left: 0;
         height: 100%;
         z-index: 50;
         width: 260px;
       }
-
-      #sidebar.open {
-        transform: translateX(0);
-      }
-
+      #sidebar.open { transform: translateX(0); }
       #sidebar-overlay.show {
         display: block;
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.6);
+        background: rgba(0,0,0,0.65);
         z-index: 40;
         backdrop-filter: blur(4px);
       }
     }
+
+    /* ---- Wallet button connected state ---- */
+    #wallet-btn.connected {
+      border-color: rgba(34,197,94,0.50) !important;
+      color: #4ade80 !important;
+    }
+    #wallet-btn.connected:hover {
+      background: rgba(34,197,94,0.08) !important;
+    }
+
+    /* ---- Page sections ---- */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ---- Stat mini-card ---- */
+    .stat-mini {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 16px 20px;
+      transition: all 0.3s ease;
+    }
+    .stat-mini:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
   </style>
 </head>
-<body class="text-white">
+<body>
 
-  <!-- Mobile Sidebar Overlay -->
+  <!-- Mobile sidebar overlay -->
   <div id="sidebar-overlay" onclick="closeSidebar()"></div>
 
   <div class="flex min-h-screen">
 
-    <!-- ======================== SIDEBAR ======================== -->
+    <!-- ======================================================= -->
+    <!--  SIDEBAR                                                 -->
+    <!-- ======================================================================================================= -->
     <aside id="sidebar" class="glass-strong w-64 flex-shrink-0 flex flex-col justify-between p-5 border-r border-white/5 md:relative md:translate-x-0 md:flex">
 
       <!-- Logo -->
       <div>
         <div class="flex items-center gap-3 mb-8 px-2">
-          <div class="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <div class="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
             </svg>
           </div>
           <span class="text-xl font-bold logo-gradient tracking-tight">LuminaPay</span>
         </div>
 
-        <!-- Nav Links -->
-        <nav class="space-y-1">
-          <a class="sidebar-link" href="#" onclick="setActive(this)">
-            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <!-- Navigation -->
+        <nav class="space-y-1" id="nav-links">
+          <a class="sidebar-link" data-page="dashboard" href="#" onclick="navigate(event,'dashboard')">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 flex-shrink-0"></i>
             Dashboard
           </a>
-          <a class="sidebar-link active" href="#" onclick="setActive(this)">
-            <i data-lucide="file-text" class="w-4 h-4"></i>
+          <a class="sidebar-link active" data-page="invoices" href="#" onclick="navigate(event,'invoices')">
+            <i data-lucide="file-text" class="w-4 h-4 flex-shrink-0"></i>
             Invoices
           </a>
-          <a class="sidebar-link" href="#" onclick="setActive(this)">
-            <i data-lucide="users" class="w-4 h-4"></i>
+          <a class="sidebar-link" data-page="clients" href="#" onclick="navigate(event,'clients')">
+            <i data-lucide="users" class="w-4 h-4 flex-shrink-0"></i>
             Clients
           </a>
-          <a class="sidebar-link" href="#" onclick="setActive(this)">
-            <i data-lucide="settings" class="w-4 h-4"></i>
+          <a class="sidebar-link" data-page="settings" href="#" onclick="navigate(event,'settings')">
+            <i data-lucide="settings" class="w-4 h-4 flex-shrink-0"></i>
             Settings
           </a>
         </nav>
 
-        <!-- Separator -->
-        <div class="mt-6 mb-4 border-t border-white/5"></div>
+        <!-- Divider -->
+        <div class="my-5 border-t border-white/5"></div>
 
-        <!-- Quick Stats -->
+        <!-- Network indicator -->
         <div class="glass rounded-xl p-3 space-y-2">
-          <p class="text-xs text-slate-500 font-medium uppercase tracking-widest px-1">Network</p>
+          <p class="text-xs text-slate-500 font-semibold uppercase tracking-widest px-1">Network</p>
           <div class="flex items-center gap-2 px-1">
             <span class="pulse-dot w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>
             <span class="text-xs text-slate-300">Ethereum Mainnet</span>
@@ -223,427 +232,775 @@
         </div>
       </div>
 
-      <!-- User Profile -->
+      <!-- User profile -->
       <div class="glass rounded-xl p-3 flex items-center gap-3 mt-4">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center flex-shrink-0 text-sm font-bold">
-          A
-        </div>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center flex-shrink-0 text-sm font-bold">A</div>
         <div class="flex-1 min-w-0">
           <p class="text-sm font-semibold text-white truncate">Alex Monroe</p>
           <p class="text-xs text-slate-500">Admin</p>
         </div>
-        <button class="text-slate-500 hover:text-slate-300 transition-colors">
+        <button class="text-slate-500 hover:text-slate-300 transition-colors flex-shrink-0">
           <i data-lucide="more-horizontal" class="w-4 h-4"></i>
         </button>
       </div>
     </aside>
 
-    <!-- ======================== MAIN CONTENT ======================== -->
-    <main class="flex-1 overflow-y-auto">
+    <!-- ======================================================= -->
+    <!--  MAIN                                                    -->
+    <!-- ======================================================================================================= -->
+    <main class="flex-1 min-w-0 overflow-y-auto overflow-x-hidden flex flex-col">
 
-      <!-- Top Bar -->
-      <header class="glass border-b border-white/5 px-6 py-4 flex items-center justify-between sticky top-0 z-30">
-        <div class="flex items-center gap-4">
-          <!-- Mobile Menu Button -->
-          <button class="md:hidden text-slate-400 hover:text-white transition-colors" onclick="openSidebar()">
+      <!-- ---- Top Header ---- -->
+      <header class="glass border-b border-white/5 px-4 md:px-6 py-3 flex items-center justify-between sticky top-0 z-30 flex-shrink-0">
+        <div class="flex items-center gap-3 min-w-0">
+          <!-- Mobile hamburger -->
+          <button class="md:hidden text-slate-400 hover:text-white transition-colors flex-shrink-0" onclick="openSidebar()">
             <i data-lucide="menu" class="w-5 h-5"></i>
           </button>
-          <div>
-            <h1 class="text-lg font-semibold text-white">Invoices</h1>
+          <div class="min-w-0">
+            <h1 id="page-title" class="text-base md:text-lg font-semibold text-white leading-tight">Invoices</h1>
             <p class="text-xs text-slate-500">April 12, 2026</p>
           </div>
         </div>
-        <div class="flex items-center gap-3">
-          <button class="glass rounded-xl p-2 text-slate-400 hover:text-white transition-all duration-300 hover:bg-white/8 relative">
+
+        <div class="flex items-center gap-2 md:gap-3 flex-shrink-0">
+          <!-- Wallet connect button -->
+          <button
+            id="wallet-btn"
+            onclick="connectWallet()"
+            class="glass inline-flex items-center gap-2 border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 text-xs font-semibold px-3 py-2 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 glow-blue"
+          >
+            <i data-lucide="wallet" class="w-3.5 h-3.5 flex-shrink-0"></i>
+            <span id="wallet-label" class="hidden sm:inline">Connect Wallet</span>
+          </button>
+
+          <!-- Bell -->
+          <button class="glass rounded-xl p-2 text-slate-400 hover:text-white transition-all duration-300 relative">
             <i data-lucide="bell" class="w-4 h-4"></i>
             <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
           </button>
-          <button class="glass rounded-xl p-2 text-slate-400 hover:text-white transition-all duration-300 hover:bg-white/8">
-            <i data-lucide="search" class="w-4 h-4"></i>
-          </button>
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-xs font-bold cursor-pointer">
-            A
-          </div>
+
+          <!-- Avatar -->
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-xs font-bold cursor-pointer flex-shrink-0">A</div>
         </div>
       </header>
 
-      <div class="p-6 space-y-6 max-w-6xl mx-auto">
+      <!-- ---- Content wrapper ---- -->
+      <div class="flex-1 p-4 md:p-8 w-full max-w-7xl mx-auto overflow-x-hidden">
 
-        <!-- ===== METRICS ===== -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- ================================================== -->
+        <!--  PAGE: DASHBOARD                                    -->
+        <!-- ================================================== -->
+        <div id="page-dashboard" class="page-section space-y-6">
 
-          <!-- Card 1: Total Revenue -->
-          <div class="metric-card glass-strong rounded-2xl p-6 transition-all duration-300 hover:border-blue-500/20 hover:-translate-y-0.5">
-            <div class="flex items-start justify-between mb-4">
-              <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                <i data-lucide="trending-up" class="w-5 h-5 text-blue-400"></i>
-              </div>
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 border border-green-500/20 text-green-400">
-                <i data-lucide="arrow-up" class="w-3 h-3"></i>
-                +14%
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="stat-mini col-span-2 md:col-span-1">
+              <p class="text-xs text-slate-500 mb-2">Total Revenue</p>
+              <p class="text-2xl font-bold text-white">$124.5K</p>
+              <span class="inline-flex items-center gap-1 text-xs text-green-400 mt-1">
+                <i data-lucide="trending-up" class="w-3 h-3"></i>+14% this month
               </span>
             </div>
-            <p class="text-sm text-slate-400 font-medium mb-1">Total Revenue</p>
-            <p class="text-3xl font-bold text-white tracking-tight">$124,500<span class="text-lg text-slate-400 font-normal">.00</span></p>
-            <p class="text-xs text-blue-400/70 font-medium mt-1">USDC · All time</p>
-          </div>
-
-          <!-- Card 2: Outstanding Invoices -->
-          <div class="metric-card glass-strong rounded-2xl p-6 transition-all duration-300 hover:border-yellow-500/20 hover:-translate-y-0.5">
-            <div class="flex items-start justify-between mb-4">
-              <div class="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-                <i data-lucide="clock" class="w-5 h-5 text-yellow-400"></i>
-              </div>
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/10 border border-yellow-500/20 text-yellow-400">
-                <i data-lucide="alert-circle" class="w-3 h-3"></i>
-                3 pending
-              </span>
+            <div class="stat-mini">
+              <p class="text-xs text-slate-500 mb-2">Invoices Sent</p>
+              <p class="text-2xl font-bold text-white">43</p>
+              <span class="text-xs text-slate-500 mt-1 block">All time</span>
             </div>
-            <p class="text-sm text-slate-400 font-medium mb-1">Outstanding Invoices</p>
-            <p class="text-3xl font-bold text-white tracking-tight">$12,350<span class="text-lg text-slate-400 font-normal">.00</span></p>
-            <p class="text-xs text-yellow-400/70 font-medium mt-1">USDC · Awaiting payment</p>
+            <div class="stat-mini">
+              <p class="text-xs text-slate-500 mb-2">Clients</p>
+              <p class="text-2xl font-bold text-white">12</p>
+              <span class="text-xs text-slate-500 mt-1 block">Active</span>
+            </div>
+            <div class="stat-mini">
+              <p class="text-xs text-slate-500 mb-2">Outstanding</p>
+              <p class="text-2xl font-bold text-yellow-400">$12.35K</p>
+              <span class="text-xs text-yellow-500/70 mt-1 block">3 pending</span>
+            </div>
           </div>
 
-        </section>
-
-        <!-- ===== CREATE INVOICE ===== -->
-        <section>
-          <div class="flex items-center gap-2 mb-4">
-            <i data-lucide="plus-circle" class="w-4 h-4 text-blue-400"></i>
-            <h2 class="text-base font-semibold text-white">Create Invoice</h2>
-          </div>
-
-          <div class="shimmer-border">
-            <div class="shimmer-border-inner p-6 space-y-5">
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Client Email -->
-                <div class="space-y-2">
-                  <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Client Email</label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                      <i data-lucide="mail" class="w-4 h-4 text-slate-500"></i>
-                    </div>
-                    <input
-                      type="email"
-                      placeholder="client@company.com"
-                      class="w-full bg-black/50 border border-white/8 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
-                    />
-                  </div>
+          <!-- Recent activity -->
+          <div class="glass-strong rounded-2xl p-5">
+            <div class="flex items-center gap-2 mb-5">
+              <i data-lucide="activity" class="w-4 h-4 text-blue-400"></i>
+              <h2 class="text-sm font-semibold text-white">Recent Activity</h2>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/4 transition-colors duration-200">
+                <div class="w-8 h-8 rounded-full bg-green-500/15 border border-green-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="check" class="w-4 h-4 text-green-400"></i>
                 </div>
-
-                <!-- Amount -->
-                <div class="space-y-2">
-                  <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Amount in USD</label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                      <span class="text-slate-500 text-sm font-medium">$</span>
-                    </div>
-                    <input
-                      type="number"
-                      placeholder="0.00"
-                      class="w-full bg-black/50 border border-white/8 rounded-xl pl-8 pr-16 py-3 text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300"
-                    />
-                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                      <span class="text-xs font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-md">USDC</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Description -->
-              <div class="space-y-2">
-                <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Description</label>
-                <textarea
-                  rows="3"
-                  placeholder="Describe the service or product being invoiced..."
-                  class="w-full bg-black/50 border border-white/8 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 resize-none"
-                ></textarea>
-              </div>
-
-              <!-- Due Date & Payment Token Row -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-2">
-                  <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Due Date</label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                      <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
-                    </div>
-                    <input
-                      type="date"
-                      class="w-full bg-black/50 border border-white/8 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-300 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 [color-scheme:dark]"
-                    />
-                  </div>
-                </div>
-
-                <div class="space-y-2">
-                  <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Payment Token</label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                      <i data-lucide="coins" class="w-4 h-4 text-slate-500"></i>
-                    </div>
-                    <select class="w-full bg-black/50 border border-white/8 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-300 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 appearance-none cursor-pointer">
-                      <option value="usdc">USDC</option>
-                      <option value="usdt">USDT</option>
-                      <option value="dai">DAI</option>
-                      <option value="eth">ETH</option>
-                    </select>
-                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-                      <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Generate Button -->
-              <div class="flex items-center justify-between pt-1">
-                <p class="text-xs text-slate-600 flex items-center gap-1.5">
-                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-500/60"></i>
-                  Secured on-chain via smart contract
-                </p>
-                <button
-                  onclick="generateLink(this)"
-                  class="glow-blue inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all duration-300 hover:scale-105 active:scale-95"
-                >
-                  <i data-lucide="zap" class="w-4 h-4"></i>
-                  Generate Payment Link
-                </button>
-              </div>
-
-              <!-- Success Message (hidden by default) -->
-              <div id="success-msg" class="hidden flex items-center gap-3 glass rounded-xl px-4 py-3 border border-green-500/20 bg-green-500/5">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 flex-shrink-0"></i>
                 <div class="flex-1 min-w-0">
-                  <p class="text-sm text-green-400 font-medium">Payment link generated!</p>
-                  <p class="text-xs text-slate-500 truncate">https://pay.luminapay.io/inv/0x7f3a...e91b</p>
+                  <p class="text-sm text-white font-medium truncate">Invoice #LUM-0041 paid by Nexus Corp</p>
+                  <p class="text-xs text-slate-500">Apr 08, 2026 · $8,400.00 USDC</p>
                 </div>
-                <button class="text-slate-500 hover:text-white transition-colors" onclick="copyLink('https://pay.luminapay.io/inv/0x7f3a...e91b', this)">
-                  <i data-lucide="copy" class="w-4 h-4"></i>
-                </button>
+                <span class="text-xs text-green-400 font-semibold flex-shrink-0">+$8,400</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/4 transition-colors duration-200">
+                <div class="w-8 h-8 rounded-full bg-blue-500/15 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="send" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm text-white font-medium truncate">Invoice #LUM-0042 sent to Orion Labs</p>
+                  <p class="text-xs text-slate-500">Apr 10, 2026 · $3,250.00 USDC</p>
+                </div>
+                <span class="text-xs text-yellow-400 font-semibold flex-shrink-0">Pending</span>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-white/4 transition-colors duration-200">
+                <div class="w-8 h-8 rounded-full bg-blue-500/15 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="send" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm text-white font-medium truncate">Invoice #LUM-0043 sent to Vanta Systems</p>
+                  <p class="text-xs text-slate-500">Apr 12, 2026 · $700.00 USDC</p>
+                </div>
+                <span class="text-xs text-yellow-400 font-semibold flex-shrink-0">Pending</span>
               </div>
             </div>
           </div>
-        </section>
 
-        <!-- ===== INVOICE HISTORY TABLE ===== -->
-        <section>
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-2">
-              <i data-lucide="list" class="w-4 h-4 text-blue-400"></i>
-              <h2 class="text-base font-semibold text-white">Invoice History</h2>
+          <!-- Quick actions -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button onclick="navigate(null,'invoices')" class="glass-strong rounded-2xl p-5 text-left hover:border-blue-500/25 transition-all duration-300 hover:-translate-y-0.5 group">
+              <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-3 group-hover:bg-blue-500/20 transition-colors">
+                <i data-lucide="plus" class="w-4 h-4 text-blue-400"></i>
+              </div>
+              <p class="text-sm font-semibold text-white">New Invoice</p>
+              <p class="text-xs text-slate-500 mt-0.5">Create & send instantly</p>
+            </button>
+            <button onclick="navigate(null,'clients')" class="glass-strong rounded-2xl p-5 text-left hover:border-violet-500/25 transition-all duration-300 hover:-translate-y-0.5 group">
+              <div class="w-9 h-9 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-3 group-hover:bg-violet-500/20 transition-colors">
+                <i data-lucide="user-plus" class="w-4 h-4 text-violet-400"></i>
+              </div>
+              <p class="text-sm font-semibold text-white">Add Client</p>
+              <p class="text-xs text-slate-500 mt-0.5">Manage your contacts</p>
+            </button>
+            <button onclick="navigate(null,'settings')" class="glass-strong rounded-2xl p-5 text-left hover:border-slate-400/20 transition-all duration-300 hover:-translate-y-0.5 group">
+              <div class="w-9 h-9 rounded-xl bg-slate-500/10 border border-slate-500/20 flex items-center justify-center mb-3 group-hover:bg-slate-500/20 transition-colors">
+                <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <p class="text-sm font-semibold text-white">Settings</p>
+              <p class="text-xs text-slate-500 mt-0.5">Wallet & preferences</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!--  PAGE: INVOICES                                     -->
+        <!-- ================================================== -->
+        <div id="page-invoices" class="page-section active space-y-6">
+
+          <!-- Metrics row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Card 1 -->
+            <div class="metric-card glass-strong rounded-2xl p-5 md:p-6 transition-all duration-300 hover:border-blue-500/20 hover:-translate-y-0.5">
+              <div class="flex items-start justify-between mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="trending-up" class="w-5 h-5 text-blue-400"></i>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 border border-green-500/20 text-green-400">
+                  <i data-lucide="arrow-up" class="w-3 h-3"></i>+14%
+                </span>
+              </div>
+              <p class="text-sm text-slate-400 font-medium mb-1">Total Revenue</p>
+              <p class="text-2xl md:text-3xl font-bold text-white tracking-tight">$124,500<span class="text-base md:text-lg text-slate-400 font-normal">.00</span></p>
+              <p class="text-xs text-blue-400/70 font-medium mt-1">USDC · All time</p>
             </div>
-            <div class="flex items-center gap-2">
-              <button class="glass text-slate-400 hover:text-white text-xs px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1.5">
-                <i data-lucide="filter" class="w-3.5 h-3.5"></i>
-                Filter
-              </button>
-              <button class="glass text-slate-400 hover:text-white text-xs px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1.5">
-                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                Export
-              </button>
+            <!-- Card 2 -->
+            <div class="metric-card glass-strong rounded-2xl p-5 md:p-6 transition-all duration-300 hover:border-yellow-500/20 hover:-translate-y-0.5">
+              <div class="flex items-start justify-between mb-4">
+                <div class="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="clock" class="w-5 h-5 text-yellow-400"></i>
+                </div>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/10 border border-yellow-500/20 text-yellow-400">
+                  <i data-lucide="alert-circle" class="w-3 h-3"></i>3 pending
+                </span>
+              </div>
+              <p class="text-sm text-slate-400 font-medium mb-1">Outstanding Invoices</p>
+              <p class="text-2xl md:text-3xl font-bold text-white tracking-tight">$12,350<span class="text-base md:text-lg text-slate-400 font-normal">.00</span></p>
+              <p class="text-xs text-yellow-400/70 font-medium mt-1">USDC · Awaiting payment</p>
             </div>
+          </div>
+
+          <!-- Create Invoice form -->
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="plus-circle" class="w-4 h-4 text-blue-400"></i>
+              <h2 class="text-base font-semibold text-white">Create Invoice</h2>
+            </div>
+            <div class="shimmer-border">
+              <div class="shimmer-border-inner p-4 md:p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <!-- Client Email -->
+                  <div class="space-y-2">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Client Email</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <i data-lucide="mail" class="w-4 h-4 text-slate-500"></i>
+                      </div>
+                      <input type="email" placeholder="client@company.com"
+                        class="w-full bg-black/50 border border-white/8 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300" />
+                    </div>
+                  </div>
+                  <!-- Amount -->
+                  <div class="space-y-2">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Amount in USD</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <span class="text-slate-500 text-sm font-medium">$</span>
+                      </div>
+                      <input type="number" placeholder="0.00"
+                        class="w-full bg-black/50 border border-white/8 rounded-xl pl-8 pr-16 py-3 text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300" />
+                      <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <span class="text-xs font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-md">USDC</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Description -->
+                <div class="space-y-2">
+                  <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Description</label>
+                  <textarea rows="3" placeholder="Describe the service or product being invoiced..."
+                    class="w-full bg-black/50 border border-white/8 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-600 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 resize-none"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <!-- Due Date -->
+                  <div class="space-y-2">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Due Date</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+                      </div>
+                      <input type="date"
+                        class="w-full bg-black/50 border border-white/8 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-300 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 [color-scheme:dark]" />
+                    </div>
+                  </div>
+                  <!-- Token -->
+                  <div class="space-y-2">
+                    <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Payment Token</label>
+                    <div class="relative">
+                      <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                        <i data-lucide="coins" class="w-4 h-4 text-slate-500"></i>
+                      </div>
+                      <select class="w-full bg-black/50 border border-white/8 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-300 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300 appearance-none cursor-pointer">
+                        <option value="usdc">USDC</option>
+                        <option value="usdt">USDT</option>
+                        <option value="dai">DAI</option>
+                        <option value="eth">ETH</option>
+                      </select>
+                      <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action row -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
+                  <p class="text-xs text-slate-600 flex items-center gap-1.5">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-500/60"></i>
+                    Secured on-chain via smart contract
+                  </p>
+                  <button id="gen-btn" onclick="generateLink(this)"
+                    class="glow-blue inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-3 rounded-xl text-sm transition-all duration-300 hover:scale-105 active:scale-95 w-full sm:w-auto">
+                    <i data-lucide="zap" class="w-4 h-4"></i>
+                    Generate Payment Link
+                  </button>
+                </div>
+
+                <!-- Success message -->
+                <div id="success-msg" class="hidden items-center gap-3 glass rounded-xl px-4 py-3 border border-green-500/20 bg-green-500/5">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 flex-shrink-0"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm text-green-400 font-medium">Payment link generated!</p>
+                    <p class="text-xs text-slate-500 truncate">https://pay.luminapay.io/inv/0x7f3a...e91b</p>
+                  </div>
+                  <button class="text-slate-500 hover:text-white transition-colors flex-shrink-0" onclick="copyLink('https://pay.luminapay.io/inv/0x7f3a...e91b',this)">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Invoice history table -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <i data-lucide="list" class="w-4 h-4 text-blue-400"></i>
+                <h2 class="text-base font-semibold text-white">Invoice History</h2>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="glass text-slate-400 hover:text-white text-xs px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1.5">
+                  <i data-lucide="filter" class="w-3.5 h-3.5"></i>
+                  <span class="hidden sm:inline">Filter</span>
+                </button>
+                <button class="glass text-slate-400 hover:text-white text-xs px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1.5">
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                  <span class="hidden sm:inline">Export</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="glass-strong rounded-2xl overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full min-w-[560px]">
+                  <thead>
+                    <tr class="border-b border-white/5">
+                      <th class="text-left px-4 md:px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest whitespace-nowrap">Invoice ID</th>
+                      <th class="text-left px-4 md:px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Client</th>
+                      <th class="text-left px-4 md:px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest hidden sm:table-cell whitespace-nowrap">Date</th>
+                      <th class="text-left px-4 md:px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Amount</th>
+                      <th class="text-left px-4 md:px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Status</th>
+                      <th class="text-left px-4 md:px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-white/4">
+                    <!-- Row 1: Paid -->
+                    <tr class="table-row transition-colors duration-200">
+                      <td class="px-4 md:px-5 py-4">
+                        <span class="text-xs font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded-md whitespace-nowrap">#LUM-0041</span>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <div class="flex items-center gap-2 md:gap-3">
+                          <div class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-xs font-bold flex-shrink-0">N</div>
+                          <div class="min-w-0">
+                            <p class="text-sm font-medium text-white whitespace-nowrap">Nexus Corp</p>
+                            <p class="text-xs text-slate-500 truncate hidden sm:block">nexus@corp.io</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 md:px-5 py-4 hidden sm:table-cell">
+                        <p class="text-sm text-slate-400 whitespace-nowrap">Apr 08, 2026</p>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <p class="text-sm font-semibold text-white whitespace-nowrap">$8,400.00</p>
+                        <p class="text-xs text-slate-500">USDC</p>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 border border-green-500/20 text-green-400 whitespace-nowrap">
+                          <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>Paid
+                        </span>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <button class="glass text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg transition-all duration-300 inline-flex items-center gap-1.5">
+                          <i data-lucide="eye" class="w-3.5 h-3.5"></i>View
+                        </button>
+                      </td>
+                    </tr>
+                    <!-- Row 2: Pending -->
+                    <tr class="table-row transition-colors duration-200">
+                      <td class="px-4 md:px-5 py-4">
+                        <span class="text-xs font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded-md whitespace-nowrap">#LUM-0042</span>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <div class="flex items-center gap-2 md:gap-3">
+                          <div class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-xs font-bold flex-shrink-0">O</div>
+                          <div class="min-w-0">
+                            <p class="text-sm font-medium text-white whitespace-nowrap">Orion Labs</p>
+                            <p class="text-xs text-slate-500 truncate hidden sm:block">billing@orionlabs.ai</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 md:px-5 py-4 hidden sm:table-cell">
+                        <p class="text-sm text-slate-400 whitespace-nowrap">Apr 10, 2026</p>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <p class="text-sm font-semibold text-white whitespace-nowrap">$3,250.00</p>
+                        <p class="text-xs text-slate-500">USDC</p>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 whitespace-nowrap">
+                          <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 pulse-dot"></span>Pending
+                        </span>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <button onclick="copyLink('https://pay.luminapay.io/inv/0xa9c2...f44d',this)"
+                          class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-400/40 px-3 py-1.5 rounded-lg transition-all duration-300 whitespace-nowrap">
+                          <i data-lucide="copy" class="w-3.5 h-3.5"></i>Copy Link
+                        </button>
+                      </td>
+                    </tr>
+                    <!-- Row 3: Pending -->
+                    <tr class="table-row transition-colors duration-200">
+                      <td class="px-4 md:px-5 py-4">
+                        <span class="text-xs font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded-md whitespace-nowrap">#LUM-0043</span>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <div class="flex items-center gap-2 md:gap-3">
+                          <div class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-xs font-bold flex-shrink-0">V</div>
+                          <div class="min-w-0">
+                            <p class="text-sm font-medium text-white whitespace-nowrap">Vanta Systems</p>
+                            <p class="text-xs text-slate-500 truncate hidden sm:block">finance@vanta.dev</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-4 md:px-5 py-4 hidden sm:table-cell">
+                        <p class="text-sm text-slate-400 whitespace-nowrap">Apr 12, 2026</p>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <p class="text-sm font-semibold text-white whitespace-nowrap">$700.00</p>
+                        <p class="text-xs text-slate-500">USDC</p>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 whitespace-nowrap">
+                          <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 pulse-dot"></span>Pending
+                        </span>
+                      </td>
+                      <td class="px-4 md:px-5 py-4">
+                        <button onclick="copyLink('https://pay.luminapay.io/inv/0xd81f...b27c',this)"
+                          class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-400/40 px-3 py-1.5 rounded-lg transition-all duration-300 whitespace-nowrap">
+                          <i data-lucide="copy" class="w-3.5 h-3.5"></i>Copy Link
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- Table footer -->
+              <div class="border-t border-white/5 px-4 md:px-5 py-3 flex items-center justify-between">
+                <p class="text-xs text-slate-500">Showing 3 of 3 invoices</p>
+                <div class="flex items-center gap-1">
+                  <button class="glass text-slate-500 text-xs px-2.5 py-1.5 rounded-lg transition-all duration-300 hover:text-white">
+                    <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                  </button>
+                  <button class="bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs px-2.5 py-1.5 rounded-lg">1</button>
+                  <button class="glass text-slate-500 text-xs px-2.5 py-1.5 rounded-lg transition-all duration-300 hover:text-white">
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================== -->
+        <!--  PAGE: CLIENTS                                      -->
+        <!-- ================================================== -->
+        <div id="page-clients" class="page-section space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-semibold text-white">Clients</h2>
+              <p class="text-xs text-slate-500 mt-0.5">12 active clients</p>
+            </div>
+            <button class="glow-blue inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-all duration-300 hover:scale-105 active:scale-95">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+              <span class="hidden sm:inline">Add Client</span>
+            </button>
           </div>
 
           <div class="glass-strong rounded-2xl overflow-hidden">
-            <!-- Table Header -->
             <div class="overflow-x-auto">
-              <table class="w-full">
+              <table class="w-full min-w-[480px]">
                 <thead>
                   <tr class="border-b border-white/5">
-                    <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Invoice ID</th>
                     <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Client</th>
-                    <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest hidden sm:table-cell">Date</th>
-                    <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Amount</th>
+                    <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest hidden sm:table-cell">Email</th>
+                    <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Total Paid</th>
                     <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Status</th>
-                    <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Action</th>
+                    <th class="text-left px-5 py-4 text-xs font-semibold text-slate-500 uppercase tracking-widest">Actions</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-white/4">
-
-                  <!-- Row 1: Paid -->
                   <tr class="table-row transition-colors duration-200">
-                    <td class="px-5 py-4">
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded-md">#LUM-0041</span>
-                      </div>
-                    </td>
                     <td class="px-5 py-4">
                       <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-xs font-bold flex-shrink-0">N</div>
-                        <div>
-                          <p class="text-sm font-medium text-white">Nexus Corp</p>
-                          <p class="text-xs text-slate-500">nexus@corp.io</p>
-                        </div>
+                        <p class="text-sm font-medium text-white">Nexus Corp</p>
                       </div>
                     </td>
-                    <td class="px-5 py-4 hidden sm:table-cell">
-                      <p class="text-sm text-slate-400">Apr 08, 2026</p>
+                    <td class="px-5 py-4 hidden sm:table-cell"><p class="text-sm text-slate-400">nexus@corp.io</p></td>
+                    <td class="px-5 py-4"><p class="text-sm font-semibold text-white">$42,100.00</p></td>
+                    <td class="px-5 py-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 border border-green-500/20 text-green-400">Active</span>
                     </td>
                     <td class="px-5 py-4">
-                      <p class="text-sm font-semibold text-white">$8,400.00</p>
-                      <p class="text-xs text-slate-500">USDC</p>
-                    </td>
-                    <td class="px-5 py-4">
-                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 border border-green-500/20 text-green-400">
-                        <span class="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                        Paid
-                      </span>
-                    </td>
-                    <td class="px-5 py-4">
-                      <button class="glass text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1.5 hover:border-white/15">
-                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                        View
+                      <button class="glass text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg transition-all duration-300 inline-flex items-center gap-1.5">
+                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>View
                       </button>
                     </td>
                   </tr>
-
-                  <!-- Row 2: Pending -->
                   <tr class="table-row transition-colors duration-200">
-                    <td class="px-5 py-4">
-                      <span class="text-xs font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded-md">#LUM-0042</span>
-                    </td>
                     <td class="px-5 py-4">
                       <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-xs font-bold flex-shrink-0">O</div>
-                        <div>
-                          <p class="text-sm font-medium text-white">Orion Labs</p>
-                          <p class="text-xs text-slate-500">billing@orionlabs.ai</p>
-                        </div>
+                        <p class="text-sm font-medium text-white">Orion Labs</p>
                       </div>
                     </td>
-                    <td class="px-5 py-4 hidden sm:table-cell">
-                      <p class="text-sm text-slate-400">Apr 10, 2026</p>
+                    <td class="px-5 py-4 hidden sm:table-cell"><p class="text-sm text-slate-400">billing@orionlabs.ai</p></td>
+                    <td class="px-5 py-4"><p class="text-sm font-semibold text-white">$18,750.00</p></td>
+                    <td class="px-5 py-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/10 border border-yellow-500/20 text-yellow-400">Pending</span>
                     </td>
                     <td class="px-5 py-4">
-                      <p class="text-sm font-semibold text-white">$3,250.00</p>
-                      <p class="text-xs text-slate-500">USDC</p>
-                    </td>
-                    <td class="px-5 py-4">
-                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/10 border border-yellow-500/20 text-yellow-400">
-                        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 pulse-dot"></span>
-                        Pending
-                      </span>
-                    </td>
-                    <td class="px-5 py-4">
-                      <button onclick="copyLink('https://pay.luminapay.io/inv/0xa9c2...f44d', this)" class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-400/40 px-3 py-1.5 rounded-lg transition-all duration-300">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                        Copy Link
+                      <button class="glass text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg transition-all duration-300 inline-flex items-center gap-1.5">
+                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>View
                       </button>
                     </td>
                   </tr>
-
-                  <!-- Row 3: Pending -->
                   <tr class="table-row transition-colors duration-200">
-                    <td class="px-5 py-4">
-                      <span class="text-xs font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded-md">#LUM-0043</span>
-                    </td>
                     <td class="px-5 py-4">
                       <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-xs font-bold flex-shrink-0">V</div>
-                        <div>
-                          <p class="text-sm font-medium text-white">Vanta Systems</p>
-                          <p class="text-xs text-slate-500">finance@vanta.dev</p>
-                        </div>
+                        <p class="text-sm font-medium text-white">Vanta Systems</p>
                       </div>
                     </td>
-                    <td class="px-5 py-4 hidden sm:table-cell">
-                      <p class="text-sm text-slate-400">Apr 12, 2026</p>
+                    <td class="px-5 py-4 hidden sm:table-cell"><p class="text-sm text-slate-400">finance@vanta.dev</p></td>
+                    <td class="px-5 py-4"><p class="text-sm font-semibold text-white">$9,200.00</p></td>
+                    <td class="px-5 py-4">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-500/10 border border-green-500/20 text-green-400">Active</span>
                     </td>
                     <td class="px-5 py-4">
-                      <p class="text-sm font-semibold text-white">$700.00</p>
-                      <p class="text-xs text-slate-500">USDC</p>
-                    </td>
-                    <td class="px-5 py-4">
-                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-yellow-500/10 border border-yellow-500/20 text-yellow-400">
-                        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 pulse-dot"></span>
-                        Pending
-                      </span>
-                    </td>
-                    <td class="px-5 py-4">
-                      <button onclick="copyLink('https://pay.luminapay.io/inv/0xd81f...b27c', this)" class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 hover:border-blue-400/40 px-3 py-1.5 rounded-lg transition-all duration-300">
-                        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                        Copy Link
+                      <button class="glass text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg transition-all duration-300 inline-flex items-center gap-1.5">
+                        <i data-lucide="eye" class="w-3.5 h-3.5"></i>View
                       </button>
                     </td>
                   </tr>
-
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
 
-            <!-- Table Footer -->
-            <div class="border-t border-white/5 px-5 py-3 flex items-center justify-between">
-              <p class="text-xs text-slate-500">Showing 3 of 3 invoices</p>
-              <div class="flex items-center gap-1">
-                <button class="glass text-slate-500 text-xs px-2.5 py-1.5 rounded-lg transition-all duration-300 hover:text-white">
-                  <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+        <!-- ================================================== -->
+        <!--  PAGE: SETTINGS                                     -->
+        <!-- ================================================== -->
+        <div id="page-settings" class="page-section space-y-5">
+          <div>
+            <h2 class="text-base font-semibold text-white">Settings</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Manage your account and preferences</p>
+          </div>
+
+          <!-- Profile card -->
+          <div class="glass-strong rounded-2xl p-5 md:p-6 space-y-4">
+            <div class="flex items-center gap-2 mb-1">
+              <i data-lucide="user-circle" class="w-4 h-4 text-blue-400"></i>
+              <h3 class="text-sm font-semibold text-white">Profile</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Full Name</label>
+                <input type="text" value="Alex Monroe"
+                  class="w-full bg-black/50 border border-white/8 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300" />
+              </div>
+              <div class="space-y-2">
+                <label class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Email Address</label>
+                <input type="email" value="alex@luminapay.io"
+                  class="w-full bg-black/50 border border-white/8 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-300" />
+              </div>
+            </div>
+            <button class="glow-blue inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-all duration-300 hover:scale-105 active:scale-95">
+              <i data-lucide="save" class="w-4 h-4"></i>Save Changes
+            </button>
+          </div>
+
+          <!-- Wallet card -->
+          <div class="glass-strong rounded-2xl p-5 md:p-6 space-y-4">
+            <div class="flex items-center gap-2 mb-1">
+              <i data-lucide="wallet" class="w-4 h-4 text-blue-400"></i>
+              <h3 class="text-sm font-semibold text-white">Wallet</h3>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 glass rounded-xl border border-white/8">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="link" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                <div>
+                  <p id="settings-wallet-addr" class="text-sm text-slate-400">No wallet connected</p>
+                  <p class="text-xs text-slate-600">Ethereum Mainnet</p>
+                </div>
+              </div>
+              <button onclick="connectWallet()" class="glass border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-300">
+                Connect
+              </button>
+            </div>
+          </div>
+
+          <!-- Notifications card -->
+          <div class="glass-strong rounded-2xl p-5 md:p-6 space-y-4">
+            <div class="flex items-center gap-2 mb-1">
+              <i data-lucide="bell" class="w-4 h-4 text-blue-400"></i>
+              <h3 class="text-sm font-semibold text-white">Notifications</h3>
+            </div>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-3 rounded-xl hover:bg-white/4 transition-colors">
+                <div>
+                  <p class="text-sm text-white font-medium">Invoice Paid</p>
+                  <p class="text-xs text-slate-500">Get notified when a client pays</p>
+                </div>
+                <button onclick="toggleSwitch(this)" class="relative w-10 h-5 bg-blue-600 rounded-full transition-colors duration-300 flex-shrink-0" data-on="true">
+                  <span class="absolute top-0.5 left-5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300"></span>
                 </button>
-                <button class="bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs px-2.5 py-1.5 rounded-lg">1</button>
-                <button class="glass text-slate-500 text-xs px-2.5 py-1.5 rounded-lg transition-all duration-300 hover:text-white">
-                  <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl hover:bg-white/4 transition-colors">
+                <div>
+                  <p class="text-sm text-white font-medium">Invoice Overdue</p>
+                  <p class="text-xs text-slate-500">Alert when payment deadline passes</p>
+                </div>
+                <button onclick="toggleSwitch(this)" class="relative w-10 h-5 bg-blue-600 rounded-full transition-colors duration-300 flex-shrink-0" data-on="true">
+                  <span class="absolute top-0.5 left-5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300"></span>
+                </button>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-xl hover:bg-white/4 transition-colors">
+                <div>
+                  <p class="text-sm text-white font-medium">Weekly Summary</p>
+                  <p class="text-xs text-slate-500">Weekly revenue & activity digest</p>
+                </div>
+                <button onclick="toggleSwitch(this)" class="relative w-10 h-5 bg-slate-700 rounded-full transition-colors duration-300 flex-shrink-0" data-on="false">
+                  <span class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-all duration-300"></span>
                 </button>
               </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        <!-- Footer -->
-        <footer class="text-center pb-4">
-          <p class="text-xs text-slate-700">© 2026 LuminaPay · Powered by Ethereum · <span class="text-blue-500/60">v1.4.2</span></p>
-        </footer>
+      </div><!-- /content wrapper -->
 
+      <!-- Footer -->
+      <div class="text-center py-4 flex-shrink-0">
+        <p class="text-xs text-slate-700">© 2026 LuminaPay · Powered by Ethereum · <span class="text-blue-500/50">v1.4.2</span></p>
       </div>
     </main>
   </div>
 
+  <!-- ======================================================== -->
+  <!--  SCRIPTS                                                  -->
+  <!-- ======================================================== -->
   <script>
+    /* ---------- Lucide init ---------- */
     lucide.createIcons();
 
-    function setActive(el) {
-      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-      el.classList.add('active');
+    /* ---------- Page titles map ---------- */
+    const pageTitles = {
+      dashboard: 'Dashboard',
+      invoices:  'Invoices',
+      clients:   'Clients',
+      settings:  'Settings',
+    };
+
+    /* ---------- Multi-page routing ---------- */
+    function navigate(e, page) {
+      if (e) e.preventDefault();
+
+      /* Hide all pages */
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+
+      /* Show target page */
+      const target = document.getElementById('page-' + page);
+      if (target) target.classList.add('active');
+
+      /* Update active nav link */
+      document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector('[data-page="' + page + '"]');
+      if (activeLink) activeLink.classList.add('active');
+
+      /* Update page title */
+      document.getElementById('page-title').textContent = pageTitles[page] || page;
+
+      /* Close mobile sidebar */
       closeSidebar();
+
+      /* Re-init icons in case new ones were rendered */
+      setTimeout(() => lucide.createIcons(), 30);
     }
 
+    /* ---------- Sidebar mobile ---------- */
     function openSidebar() {
       document.getElementById('sidebar').classList.add('open');
       document.getElementById('sidebar-overlay').classList.add('show');
     }
-
     function closeSidebar() {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('sidebar-overlay').classList.remove('show');
     }
 
+    /* ---------- Wallet Connect ---------- */
+    let walletConnected = false;
+    const FAKE_ADDRESSES = [
+      '0x4A3f...9B2E',
+      '0x7C1d...4F8A',
+      '0xBa2e...3D91',
+      '0x1f9A...C443',
+    ];
+
+    function connectWallet() {
+      if (walletConnected) return;
+
+      const btn    = document.getElementById('wallet-btn');
+      const label  = document.getElementById('wallet-label');
+      const addr   = FAKE_ADDRESSES[Math.floor(Math.random() * FAKE_ADDRESSES.length)];
+
+      /* Simulate async connection */
+      label.textContent = 'Connecting...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        walletConnected = true;
+        btn.disabled = false;
+        btn.classList.add('connected', 'glow-green');
+        btn.classList.remove('glow-blue');
+
+        /* Update button icon to wallet with check */
+        btn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span class="hidden sm:inline font-mono tracking-tight">${addr}</span>
+        `;
+
+        /* Sync settings page wallet display */
+        const settingsAddr = document.getElementById('settings-wallet-addr');
+        if (settingsAddr) settingsAddr.textContent = addr;
+      }, 1200);
+    }
+
+    /* ---------- Generate Invoice Link ---------- */
     function generateLink(btn) {
       btn.disabled = true;
-      btn.innerHTML = '<svg class="animate-spin w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg> Generating...';
+      btn.innerHTML = `<svg class="spin w-4 h-4 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg> Generating...`;
 
       setTimeout(() => {
         btn.disabled = false;
-        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Generate Payment Link';
+        btn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Generate Payment Link
+        `;
 
         const msg = document.getElementById('success-msg');
         msg.classList.remove('hidden');
         msg.classList.add('flex');
-
-        setTimeout(() => lucide.createIcons(), 50);
+        setTimeout(() => lucide.createIcons(), 30);
       }, 1800);
     }
 
+    /* ---------- Copy Link ---------- */
     function copyLink(url, btn) {
       navigator.clipboard.writeText(url).catch(() => {});
-      const original = btn.innerHTML;
-      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
       btn.classList.add('text-green-400', 'border-green-500/30', 'bg-green-500/10');
       btn.classList.remove('text-blue-400', 'border-blue-500/20', 'bg-blue-500/10');
-
       setTimeout(() => {
-        btn.innerHTML = original;
+        btn.innerHTML = orig;
         btn.classList.remove('text-green-400', 'border-green-500/30', 'bg-green-500/10');
         btn.classList.add('text-blue-400', 'border-blue-500/20', 'bg-blue-500/10');
-        setTimeout(() => lucide.createIcons(), 50);
+        setTimeout(() => lucide.createIcons(), 30);
       }, 2000);
+    }
+
+    /* ---------- Toggle switches (settings) ---------- */
+    function toggleSwitch(btn) {
+      const on = btn.dataset.on === 'true';
+      const dot = btn.querySelector('span');
+      if (on) {
+        btn.dataset.on = 'false';
+        btn.classList.replace('bg-blue-600', 'bg-slate-700');
+        dot.style.transform = 'translateX(0)';
+        dot.style.left = '2px';
+      } else {
+        btn.dataset.on = 'true';
+        btn.classList.replace('bg-slate-700', 'bg-blue-600');
+        dot.style.left = '20px';
+      }
     }
   </script>
 </body>
