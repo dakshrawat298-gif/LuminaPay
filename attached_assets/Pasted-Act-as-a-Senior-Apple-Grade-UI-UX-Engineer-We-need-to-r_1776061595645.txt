@@ -1,0 +1,27 @@
+Act as a Senior Apple-Grade UI/UX Engineer. We need to refine the `index.html` file to fix 5 specific UI/UX issues. Please rewrite the complete file from `<!DOCTYPE html>` to `</html>` incorporating these fixes. NO placeholders.
+
+CRITICAL FIXES NEEDED:
+
+1. FIX BOX LAYOUT & HORIZONTAL SCROLL (Mobile):
+- Ensure `box-sizing: border-box` is applied globally.
+- The main containers, text inputs, and cards must use `w-full` and proper padding to never exceed the viewport width (`100vw`). 
+- Completely eliminate any horizontal scrolling on mobile by enforcing `overflow-x-hidden` on the body and main wrapper. Fix the input box stretching.
+
+2. REALISTIC WALLET CONNECT MODAL:
+- Clicking the "Connect Wallet" button (or the Wallet section in Settings) should NOT just change text instantly. 
+- It must open a beautiful, centered Glassmorphism Modal (dark backdrop blur) with the title "Connect Wallet".
+- Inside the modal, add two sleek buttons: "Phantom (Solana)" and "MetaMask (EVM)". 
+- When a user clicks either option, close the modal, show a short 1-second "Connecting..." state on the main button, and then update the button to a green connected state with a truncated address (e.g., 0x4A...9B2).
+
+3. NOTIFICATIONS DROPDOWN:
+- Clicking the Notification Bell icon in the header must toggle a sleek glassmorphism dropdown menu just below it.
+- The dropdown should display "Recent Notifications" with 2 dummy alerts (e.g., "Invoice #LUM-0041 Paid - $8,400"). 
+- Clicking outside the dropdown should close it.
+
+4. MOBILE SIDEBAR AUTO-CLOSE:
+- On mobile devices (when the hamburger menu is used), if the user clicks ANY navigation link in the sidebar (Dashboard, Invoices, Clients, Settings), the sidebar MUST automatically close itself so the user can immediately see the newly opened page.
+
+5. INVOICE FORM AUTO-CLEAR (UX Fix):
+- In the "Create Invoice" section, after the user clicks "Generate Payment Link" and the success state ("Payment link generated! Copied!") appears, write JS logic to automatically reset/clear all form inputs (Email, Amount, Description, Date) after 2.5 seconds, returning the button to its default state.
+
+Keep the "Midnight Dark" and "Frosted Glass" theme exactly as it is. Pure HTML, Tailwind CDN, and Vanilla JS. Output the complete code now.
