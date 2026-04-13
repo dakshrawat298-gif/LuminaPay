@@ -675,6 +675,7 @@
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     lucide.createIcons();
 
@@ -806,45 +807,117 @@
       openViewModal('Client Profile', content);
     }
 
-    /* ── WALLET LOGIC ───────────────────────────────────────── */
+    /* ── PREMIUM WALLET LOGIC WITH SWEETALERT2 ───────────────────────────────────────── */
     let walletConnected = false;
     let currentWalletAddress = "0x7f3a...e91b"; 
 
     function openWalletModal() {
       if (walletConnected) {
-        walletConnected = false;
-        localStorage.removeItem("luminaWallet");
-        localStorage.removeItem("luminaWalletName");
+        // Disconnect Warning Popup
+        Swal.fire({
+            title: 'Disconnect Wallet?',
+            text: "Are you sure you want to disconnect?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#3b82f6',
+            confirmButtonText: 'Yes, disconnect',
+            background: '#1e293b',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                walletConnected = false;
+                localStorage.removeItem("luminaWallet");
+                localStorage.removeItem("luminaWalletName");
 
-        const btn = document.getElementById('wallet-btn');
-        btn.classList.remove('connected', 'glow-green');
-        btn.classList.add('glow-blue');
-        btn.innerHTML = `<i data-lucide="wallet" class="w-3.5 h-3.5 flex-shrink-0"></i><span id="wallet-label" class="whitespace-nowrap">Connect Wallet</span>`;
+                const btn = document.getElementById('wallet-btn');
+                btn.classList.remove('connected', 'glow-green');
+                btn.classList.add('glow-blue');
+                btn.innerHTML = `<i data-lucide="wallet" class="w-3.5 h-3.5 flex-shrink-0"></i><span id="wallet-label" class="whitespace-nowrap">Connect Wallet</span>`;
 
-        const settingsAddr = document.getElementById('settings-wallet-addr');
-        if (settingsAddr) {
-           settingsAddr.textContent = 'No wallet connected';
-           document.getElementById('settings-wallet-bal').textContent = 'Ethereum Mainnet';
-           document.getElementById('settings-connect-btn').textContent = "Connect";
-           document.getElementById('settings-connect-btn').classList.remove('hidden');
-        }
-        showToast("Wallet disconnected", "info");
-        setTimeout(() => lucide.createIcons(), 30);
+                const settingsAddr = document.getElementById('settings-wallet-addr');
+                if (settingsAddr) {
+                   settingsAddr.textContent = 'No wallet connected';
+                   document.getElementById('settings-wallet-bal').textContent = 'Ethereum Mainnet';
+                   document.getElementById('settings-connect-btn').textContent = "Connect";
+                   document.getElementById('settings-connect-btn').classList.remove('hidden');
+                }
+
+                Swal.fire({
+                    title: 'Disconnected',
+                    icon: 'info',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    background: '#1e293b',
+                    color: '#fff'
+                });
+                setTimeout(() => lucide.createIcons(), 30);
+            }
+        });
         return;
       }
+      // Agar connect nahi hai toh purana menu kholo
       document.getElementById('wallet-modal-backdrop').classList.remove('hidden');
       setTimeout(() => lucide.createIcons(), 30);
     }
+
     function closeWalletModal() { document.getElementById('wallet-modal-backdrop').classList.add('hidden'); }
     function handleModalBackdropClick(e) { if (e.target === document.getElementById('wallet-modal-backdrop')) closeWalletModal(); }
 
-    async function connectPhantom() { closeWalletModal(); setWalletLoading(); setTimeout(() => setWalletSuccess('Phantom', 'E9qJ...3pT1'), 1200); }
-    async function connectMetaMask() { closeWalletModal(); setWalletLoading(); setTimeout(() => setWalletSuccess('MetaMask', '0x4A3...9B2E'), 1200); }
+    async function connectPhantom() {
+      closeWalletModal();
+      Swal.fire({
+          title: 'Connecting Phantom...',
+          text: 'Please approve the connection in your wallet.',
+          icon: 'info',
+          timer: 1500,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          background: '#1e293b',
+          color: '#fff'
+      }).then(() => {
+          setWalletSuccess('Phantom', 'E9qJ...3pT1');
+          Swal.fire({
+              title: 'Connected!',
+              text: 'Phantom Wallet linked successfully.',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              background: '#1e293b',
+              color: '#10b981'
+          });
+      });
+    }
 
-    function setWalletLoading() {
-      const btn = document.getElementById('wallet-btn');
-      btn.innerHTML = `<svg class="spin w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg><span class="whitespace-nowrap">Connecting...</span>`;
-      btn.disabled = true;
+    async function connectMetaMask() {
+      closeWalletModal();
+      Swal.fire({
+          title: 'Connecting MetaMask...',
+          text: 'Please approve the connection in your wallet.',
+          icon: 'info',
+          timer: 1500,
+          timerProgressBar: true,
+          showConfirmButton: false,
+          background: '#1e293b',
+          color: '#fff'
+      }).then(() => {
+          setWalletSuccess('MetaMask', '0x4A3...9B2E');
+          Swal.fire({
+              title: 'Connected!',
+              text: 'MetaMask linked successfully.',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              background: '#1e293b',
+              color: '#10b981'
+          });
+      });
     }
 
     function formatAddress(addr) { return addr.length > 10 ? addr.slice(0, 5) + '...' + addr.slice(-4) : addr; }
@@ -868,7 +941,6 @@
         document.getElementById('settings-wallet-bal').textContent = "Balance: 1.45 ETH ($4,200.00)";
         document.getElementById('settings-connect-btn').classList.add('hidden');
       }
-      if(!isRestore) showToast("Wallet Connected!");
     }
 
     /* ── NOTIFICATIONS DROPDOWN ───────────────────────────────── */
@@ -1089,6 +1161,5 @@
       setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('bg-green-600', 'hover:bg-green-500', 'glow-green'); btn.classList.add('bg-blue-600', 'hover:bg-blue-500', 'glow-blue'); setTimeout(() => lucide.createIcons(), 10); }, 2000);
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
