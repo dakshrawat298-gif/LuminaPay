@@ -63,7 +63,8 @@ git clone [https://github.com/dakshrawat298-gif/LuminaPay.git](https://github.co
 cd LuminaPay
 npm install
 node server.js
+```
 
-(Ensure you have a .env file with your DODO_API_KEY for the backend to function).
+(Ensure you have a `.env` file with your `DODO_API_KEY` for the backend to function).
 
 Designed & Developed with ❤️ for the Solana Ecosystem.
