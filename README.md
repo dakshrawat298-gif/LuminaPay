@@ -8,7 +8,7 @@
 
 <br>
 
-**Built specifically for the Superteam Earn x Dodo Payments Frontier Hackathon Track.**
+**Engineered for the Colosseum Frontier Hackathon (Dodo Payments Track). Built entirely on an iPhone 13 using AI coding assistants.**
 
 🔗 **Live MVP:** [luminipay--khushijjiidvhsg.replit.app](https://luminipay--khushijjiidvhsg.replit.app/)
 
