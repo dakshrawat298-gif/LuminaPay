@@ -10,8 +10,10 @@
 
 **Built specifically for the Superteam Earn x Dodo Payments Frontier Hackathon Track.**
 
-🔗 **Live MVP:** [luminipay--khushijjiidvhsg.replit.app](https://luminipay--khushijjiidvhsg.replit.app/)  
-📺 **2-Min Pitch/Demo:** [APNI_YOUTUBE_VIDEO_KA_LINK_DAAL_YAHAN]
+🔗 **Live MVP:** [luminipay--khushijjiidvhsg.replit.app](https://luminipay--khushijjiidvhsg.replit.app/)
+
+📺 **2-Min Pitch/Demo:** [Watch on YouTube](https://youtube.com/shorts/YpjChVX_wQ8?si=sAtrPU9Y57J_OWao)
+
 
 ---
 
